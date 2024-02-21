@@ -1,13 +1,19 @@
 using System;
 using System.Collections.Generic;
 
-// Product interface
+/*
+Authored By -Srikanth Chaganti 
+Design Pattern considered - Factory 
+IStore is an interface and example considered for 2 sample functions(Categories) Clothes and Books 
+*/
+
+// Product interface - Has a Generic method Sell() to be implemented in the derived classes
 interface IStore
 {
     void Sell(string item);
 }
 
-// Concrete product
+// Concrete product Called Book Store - COntains Books 
 class BookStore : IStore
 {
     public void Sell(string item)
@@ -16,7 +22,7 @@ class BookStore : IStore
     }
 }
 
-// Concrete product
+// Concrete product Clothes - Contains Clothes for selling
 class ClothingStore : IStore
 {
     public void Sell(string item)
@@ -31,20 +37,22 @@ interface IStoreFactory
     IStore CreateStore();
 }
 
-// Concrete factory
+// Concrete factory : derived class for Book store
 class BookStoreFactory : IStoreFactory
 {
     public IStore CreateStore()
     {
+        //To be implemented - CRUD operations for the entire child class functions
         return new BookStore();
     }
 }
 
-// Concrete factory
+// Concrete factory - derived class for Clothing store 
 class ClothingStoreFactory : IStoreFactory
 {
     public IStore CreateStore()
     {
+        //To be implemented - CRUD operations for the entire child class functions
         return new ClothingStore();
     }
 }
