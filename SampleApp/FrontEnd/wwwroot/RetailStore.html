@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retail Stores</title>
+</head>
+<body>
+  <h2>Retail Stores</h2>
+  <ul id="storeList">
+    <!-- Store items will be populated here dynamically -->
+  </ul>
+
+  <script>
+    // Function to fetch the list of stores from the API
+    function fetchStores() {
+      fetch('http://localhost:5000/api/stores')
+        .then(response => response.json())
+        .then(data => {
+          const storeList = document.getElementById('storeList');
+          storeList.innerHTML = ''; // Clear previous content
+
+          // Populate the list of stores
+          data.forEach(store => {
+            const listItem = document.createElement('li');
+            const sellButton = document.createElement('button');
+            sellButton.textContent = `Sell item at ${store}`;
+            sellButton.addEventListener('click', () => sellItem(store, 'item'));
+            listItem.appendChild(sellButton);
+            storeList.appendChild(listItem);
+          });
+        })
+        .catch(error => console.error('Error fetching stores:', error));
+    }
+
+    // Function to sell an item at a specific store
+    function sellItem(storeName, item) {
+      fetch(`http://localhost:5000/api/stores/${storeName}/sell`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ item })
+      })
+      .then(() => console.log(`Item ${item} sold at ${storeName}`))
+      .catch(error => console.error(`Error selling item at ${storeName}:`, error));
+    }
+
+    // Fetch the list of stores when the page loads
+    window.onload = fetchStores;
+  </script>
+</body>
+</html>
